@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8">
+	<title>UI</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+	<style>
+	* {
+		list-style: none;
+		padding:0;
+		margin:0;
+	}
+	:root {
+		--min-width: 36rem;
+
+		--c-white: #fff;
+		--c-gray-100: #fafafa;
+		--c-gray-200: #f5f5f5;
+		--c-gray-300: #e8e8e8;
+		--c-gray-400: #ddd;
+		--c-gray-500: #bbb;
+		--c-gray-600: #909090;
+		--c-gray-700: #666;
+		--c-gray-800: #444;
+		--c-black: #111;
+		--c-red: #da3b45;
+
+		--fs-xs: 1rem;
+		--fs-sm: 1.2rem;
+		--fs-df: 1.5rem;
+		--fs-md: 1.6rem;
+		--fs-lg: 1.8rem;
+		--fs-xl: 2rem;;
+	}
+	/* 탭 메뉴 */
+	.custom-tab {
+		display: flex; 
+		justify-content: flex-start;
+	}
+	.custom-tab button {
+		background-color: var(--c-gray-500);
+		display: block;
+		border: 0;
+		padding: 10px;
+		cursor: pointer;
+	}
+
+	.custom-tab button.active {
+		background-color: var(--c-red);
+		color:#fff;
+	}
+
+	[role='tabpanel'] {display: none;}
+	[role='tabpanel'].active {display: block;}
+	</style>
+</head>
+<body>
+
+	<h3 id="tablist-1">탭 타이틀</h3>
+	<div class="custom-tab" aria-labelledby="tablist-1">
+		<button id="tab-1" class="active" type="button" aria-controls="tabpanel-1" >상품 안내</button>
+		<button id="tab-2" type="button" aria-controls="tabpanel-2" >유의사항</button>
+	</div>
+	<div id="tabpanel-1" class="tab-content active" tabindex="0" aria-labelledby="tab-1"> 
+		<ul>
+			<li>- 해당 상품에 대해 충분한 사전 설명을 받을 권리가 있으며, 설명을 이해한 후 거래하시기 바랍니다.</li>
+			<li>- 과도한 대출은 개인신용평점 하락의 원인이 될 수 있습니다.</li>
+			<li>- 개인신용펑점 하락으로 금융거래의 제약 또는 불이익이 발생할 수 있습니다.</li>
+			<li>- 연체 시 계약기한 만료 전 원리금 변제의무가 발생할 수 있습니다.</li>
+			<li>- 기타 자세한 내용은 고객상담센터(1544-6700)로 문의하여 주시기 바랍니다.</li>
+		</ul>
+	</div>
+	<div id="tabpanel-2" class="tab-content" tabindex="0" aria-labelledby="tab-2">
+		<ul>
+			<li>- 저축은행 심사기준과 고객 신용도에 따라 대출 여부가 결정됩니다.</li>
+			<li>- 금리 및 수수료를 포함하여 법정 이율을 초과하지 않습니다.</li>
+			<li>- 개인 신상에 변경이 있는 경우 대출금의 일부 또는 전부가 회수될 수 있습니다.</li>
+			<li>- 대출 중개업체의 금전 및 수수료 요구는 불법행위 이오니 주의 바랍니다.</li>
+		</ul>
+	</div>
+	
+	<script>
+		
+		var ui = {
+			init: function() {
+				this.evt();
+			},
+			set: function(){
+				$('.custom-tab').attr({'role':'tablist'});
+				$('.custom-tab > button').each(function(){
+					$(this).attr({'role':'tab'});
+					$(this).is('.active') ? $(this).attr({'aria-selected':'true'}) : $(this).attr({'aria-selected':'false'});
+				});
+				
+				$('.tab-content').each(function(){
+					$(this).attr({'role':'tabpanel' });
+				})
+			},
+			evt: function(){
+				var _this = this;
+				$(document).on('click', '.custom-tab > button', function(e){
+					_this.using(this);
+					_this.set();
+				});
+			},
+			using: function(els){
+				var val = $(els).attr('id')
+				$(els).addClass('active').siblings().removeClass('active')
+				$(`[aria-labelledby=${val}]`).addClass('active').siblings().removeClass('active')
+			}
+		}
+		$(document).ready(function(){
+			ui.init("a");
+		});
+	</script>
+</body>
+</html>
