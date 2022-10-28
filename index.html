@@ -1,119 +1,336 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-	<meta charset="utf-8">
-	<title>UI</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-	<style>
-	* {
-		list-style: none;
-		padding:0;
-		margin:0;
-	}
-	:root {
-		--min-width: 36rem;
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="description" content="Fi 모바일 업무센터 홈페이지입니다.">
+    <meta name="keywords" content="Fi 모바일 업무센터">
+    <meta name="author" content="Fi 모바일 업무센터">
 
-		--c-white: #fff;
-		--c-gray-100: #fafafa;
-		--c-gray-200: #f5f5f5;
-		--c-gray-300: #e8e8e8;
-		--c-gray-400: #ddd;
-		--c-gray-500: #bbb;
-		--c-gray-600: #909090;
-		--c-gray-700: #666;
-		--c-gray-800: #444;
-		--c-black: #111;
-		--c-red: #da3b45;
+    <title>테스트</title>
 
-		--fs-xs: 1rem;
-		--fs-sm: 1.2rem;
-		--fs-df: 1.5rem;
-		--fs-md: 1.6rem;
-		--fs-lg: 1.8rem;
-		--fs-xl: 2rem;;
-	}
-	/* 탭 메뉴 */
-	.custom-tab {
-		display: flex; 
-		justify-content: flex-start;
-	}
-	.custom-tab button {
-		background-color: var(--c-gray-500);
-		display: block;
-		border: 0;
-		padding: 10px;
-		cursor: pointer;
-	}
+    <style>
+        body, html {height: 100%;}
+        
+    /* 풀팝업 레이어  */
+    .pop-layer.is-full {display:block;font-size: 0;position:fixed;left:0px;right:0px;top: 0px;bottom:0;z-index:1000;background-color: rgba(0,0,0,0.0);outline:none;border:0; transition: background-color 0.4s;}
+    .pop-layer.is-full.on {display:block; background-color: rgba(0,0,0,0.5);}
+    .pop-layer.is-full.on>.pbd{transition-delay: 0.2s;}
+    .pop-layer.is-full .pbd{position:relative;overflow: hidden;transition: transform 0.4s;}
+    .pop-layer.is-full .pbd{background: blue;display:inline-block;width: 100%; vertical-align: bottom;text-align: left;font-size: 14px;}
 
-	.custom-tab button.active {
-		background-color: var(--c-red);
-		color:#fff;
-	}
+    .pop-layer.is-full .phd{height: 48px;position: relative;}
+    .pop-layer.is-full .phd>.in{position: absolute;left:0px;right:0px;top:0px;z-index: 100;height: 48px;/* text-align:center; */background-color: #ffffff;box-sizing:border-box;display: flex;align-items: center; justify-content: center;}
+    .pop-layer.is-full .phd .ptit{font-size: 16px;/* font-family: "Kyobo"; */color:#000000;/*width: calc(100% - 40px);*/ white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight: 700;}
+    .pop-layer.is-full .pct{position: relative;}
+    .pop-layer.is-full .pct::-webkit-scrollbar{}
+    .pop-layer.is-full .pct.no-scroll{overflow:visible !important;max-height: initial !important;}
+    .pop-layer.is-full .pbt{position: absolute;bottom: 0px;left: 0px;right: 0px;width:100%;min-height: 32px;padding: 24px 20px 16px 20px;padding-bottom: calc(16px + env(safe-area-inset-bottom));background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.4) 20%, rgba(255, 255, 255, 0.7) 40%, #fff);transition: transform 0.4s;z-index: 100;}
+    .pop-layer.is-full .pbt .bts {display: flex;padding: 0px 16px 0px 16px;margin: 0px -4px;justify-content: center;}
+    .pop-layer.is-full .pbt .bts .btn{width:100%;padding: 0px 0;margin: 0px 4px;/* height: 40px; */align-items: center;/* font-size: 16px; *//* border-color: #bec2c7; */}
+    .pop-layer.is-full::before{content: '';width:0;height:100%;display:inline-block;vertical-align:middle;overflow: hidden;}
+    .pop-layer.is-full .phd>.in{}
+    .pop-layer.is-full .pct{overflow: auto; -webkit-overflow-scrolling: touch; height: 600px}
+    .pop-layer.is-full .pbt::before{position:absolute;left:0px;right: 0px;top: -15px;height: 15px;content:"";display:block;background-image: linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);display:none;}
+    /* .pop-layer.is-full .poptents{position: relative;padding: 0px 30px 30px 30px;} */
+    .pop-layer.is-full .poptents{position: relative;padding: 0px 30px 0px 30px;}
+    .pop-layer.is-full .btn-pop-close{position: absolute;left: 20px;top: 12px;font-size:0px;width: 24px;height: 24px; padding: 0; background:url(../images/common/ico_actionbar_close.svg) no-repeat 50% 50%; background-size: 100%; border:0; cursor: pointer; z-index: 100;}
+    .pop-layer.is-full .nopad{padding:0px;}
+    .pop-layer.is-full .h100p{height: 100%;}
+    .pop-layer.is-full .poptents iframe.iframe{width: 100%;height: 100%;}
+    .pop-layer.is-full .pbt .bots{}
+    .pop-layer.is-full .poptents .btn-bot{margin-top: 20px;}
 
-	[role='tabpanel'] {display: none;}
-	[role='tabpanel'].active {display: block;}
-	</style>
+    .pop-layer.is-full.is-pop-pbt{}
+    .pop-layer.is-full.is-pop-pbt .pct{padding-bottom: calc(60px + env(safe-area-inset-bottom));}
+
+    .pop-layer.is-full.is-pop-floatbots{}
+    .pop-layer.is-full.is-pop-floatbots .pct{padding-bottom: calc(60px + env(safe-area-inset-bottom));}
+
+    .pop-layer.is-full.win{display:block;position: relative;overflow: visible;}
+    .pop-layer.is-full.win>.pbd>.phd,
+    .pop-layer.is-full.win>.pbd>.phd>.in{}
+    .pop-layer.is-full.win>.pbd>.phd .ptit{}
+    .pop-layer.is-full.win>.pbd>.pct{ }
+    .pop-layer.is-full.win>.pbd>.pbt{position: fixed;bottom: 0;left: 0;right: 0;}
+
+    </style>
 </head>
-<body>
 
-	<h3 id="tablist-1">탭 타이틀</h3>
-	<div class="custom-tab" aria-labelledby="tablist-1">
-		<button id="tab-1" class="active" type="button" aria-controls="tabpanel-1" >상품 안내</button>
-		<button id="tab-2" type="button" aria-controls="tabpanel-2" >유의사항</button>
-	</div>
-	<div id="tabpanel-1" class="tab-content active" tabindex="0" aria-labelledby="tab-1"> 
-		<ul>
-			<li>- 해당 상품에 대해 충분한 사전 설명을 받을 권리가 있으며, 설명을 이해한 후 거래하시기 바랍니다.</li>
-			<li>- 과도한 대출은 개인신용평점 하락의 원인이 될 수 있습니다.</li>
-			<li>- 개인신용펑점 하락으로 금융거래의 제약 또는 불이익이 발생할 수 있습니다.</li>
-			<li>- 연체 시 계약기한 만료 전 원리금 변제의무가 발생할 수 있습니다.</li>
-			<li>- 기타 자세한 내용은 고객상담센터(1544-6700)로 문의하여 주시기 바랍니다.</li>
-		</ul>
-	</div>
-	<div id="tabpanel-2" class="tab-content" tabindex="0" aria-labelledby="tab-2">
-		<ul>
-			<li>- 저축은행 심사기준과 고객 신용도에 따라 대출 여부가 결정됩니다.</li>
-			<li>- 금리 및 수수료를 포함하여 법정 이율을 초과하지 않습니다.</li>
-			<li>- 개인 신상에 변경이 있는 경우 대출금의 일부 또는 전부가 회수될 수 있습니다.</li>
-			<li>- 대출 중개업체의 금전 및 수수료 요구는 불법행위 이오니 주의 바랍니다.</li>
-		</ul>
-	</div>
-	
-	<script>
-		
-		var ui = {
-			init: function() {
-				this.evt();
-			},
-			set: function(){
-				$('.custom-tab').attr({'role':'tablist'});
-				$('.custom-tab > button').each(function(){
-					$(this).attr({'role':'tab'});
-					$(this).is('.active') ? $(this).attr({'aria-selected':'true'}) : $(this).attr({'aria-selected':'false'});
-				});
-				
-				$('.tab-content').each(function(){
-					$(this).attr({'role':'tabpanel' });
-				})
-			},
-			evt: function(){
-				var _this = this;
-				$(document).on('click', '.custom-tab > button', function(e){
-					_this.using(this);
-					_this.set();
-				});
-			},
-			using: function(els){
-				var val = $(els).attr('id')
-				$(els).addClass('active').siblings().removeClass('active')
-				$(`[aria-labelledby=${val}]`).addClass('active').siblings().removeClass('active')
-			}
-		}
-		$(document).ready(function(){
-			ui.init("a");
-		});
-	</script>
+<body>
+   
+    <article class="pop-layer is-full" id="pop-info">
+        <div class="pbd">
+            <div class="phd">
+                <div class="in">
+                    <!-- <h2 class="ptit">약관 상세팝업</h2> -->
+                </div>
+            </div>
+            <div class="pct">
+                <main class="poptents">
+                    <!-- 상세 -->
+                    <div class="terms-box">
+                        <h4 class="terms-tit">대학생·청년층을 위한 공적지원제도 안내</h4>
+                        <h5 class="agree-title">1단계(한국장학재단)</h5>
+                        <div class="desc-box">
+                            등록금 및 학업을 위한 생활자금이 필요한 대학(원)생의 경우 한국장학재단의 학자금 대출 및 장학금 지원을 이용하는 것이 대출금리 및 신용평점 관리 등에 가장 유리합니다.
+                        </div>
+                        <h5 class="agree-title">2단계(서민금융진흥원)</h5>
+                        <div class="desc-box">
+                            대학(원)생 및 저소득·저신용층 청년층의 경우 서민금융진흥원의 『대학생·청년 햇살론』을 통해 생활자금대출 등을 이용할 수 있습니다.
+                        </div>
+                        <h5 class="agree-title">공적지원제도 문의</h5>
+                        <div class="desc-box">
+                            <ul>
+                                <li class="has-bullet">서민금융진흥원(<a href="tel:1397" title="전화연결">1397</a>)</li>
+                                <li class="has-bullet">한국장학재단(<a href="tel:1599-2000" title="전화연결">1599-2000</a>)</li>
+                            </ul>
+                        </div>
+                        <h5 class="agree-title">지원체계도</h5>
+                        <div>
+                            <ol>
+                                <li>
+                                    <h5 class="agree-title2">1단계(한국장학재단)</h5>
+                                    <span class="agree-title2">[등록금, 생활자금대출]</span>
+                                    <div class="desc-box">
+                                        <ul class="list-has-number">
+                                            <li class="has-bullet">
+                                                대학(원)생 2.2%(고정/변동금리), 생활비 대출의 경우 학기당 150만원 이내
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h5 class="agree-title2">2단계(대학생·청년 햇살론)</h5>
+                                    <span class="agree-title2">[생활자금대출]서민금융진흥원</span>
+                                    <div class="desc-box">
+                                        <ul class="list-has-number">
+                                            <li class="has-bullet">대상 : 대학생 및 저소득·저신용층 청년층</li>
+                                            <li class="has-bullet">금리 : 4.5%</li>
+                                            <li class="has-bullet">한도 : 최대 1,200만원(연간 500만원 이내)</li>
+                                            <li class="has-bullet">거치기간 : 최대 6년</li>
+                                            <li class="has-bullet">상환기간 : 최대 7년</li>
+                                        </ul>
+                                    </div>
+                                    <span class="agree-title2">[임차보증금 대출]서민금융진흥원</span>
+                                    <div class="desc-box">
+                                        <ul class="list-has-number">
+                                            <li class="has-bullet">대상 : 저소득층 대학(원)생·청년층</li>
+                                            <li class="has-bullet">금리 : 4.5%</li>
+                                            <li class="has-bullet">한도 : 2,000만원</li>
+                                            <li class="has-bullet">만기 : 2년 이내</li>
+                                        </ul>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                    </div>
+                                </li>
+                            </ol>
+                        </div>
+                        
+                    </div>
+
+                    <div class="terms-box">
+                        <h4 class="terms-tit">대학생·청년층을 위한 공적지원제도 안내</h4>
+                        <h5 class="agree-title">1단계(한국장학재단)</h5>
+                        <div class="desc-box">
+                            등록금 및 학업을 위한 생활자금이 필요한 대학(원)생의 경우 한국장학재단의 학자금 대출 및 장학금 지원을 이용하는 것이 대출금리 및 신용평점 관리 등에 가장 유리합니다.
+                        </div>
+                        <h5 class="agree-title">2단계(서민금융진흥원)</h5>
+                        <div class="desc-box">
+                            대학(원)생 및 저소득·저신용층 청년층의 경우 서민금융진흥원의 『대학생·청년 햇살론』을 통해 생활자금대출 등을 이용할 수 있습니다.
+                        </div>
+                        <h5 class="agree-title">공적지원제도 문의</h5>
+                        <div class="desc-box">
+                            <ul>
+                                <li class="has-bullet">서민금융진흥원(<a href="tel:1397" title="전화연결">1397</a>)</li>
+                                <li class="has-bullet">한국장학재단(<a href="tel:1599-2000" title="전화연결">1599-2000</a>)</li>
+                            </ul>
+                        </div>
+                        <h5 class="agree-title">지원체계도</h5>
+                        <div>
+                            <ol>
+                                <li>
+                                    <h5 class="agree-title2">1단계(한국장학재단)</h5>
+                                    <span class="agree-title2">[등록금, 생활자금대출]</span>
+                                    <div class="desc-box">
+                                        <ul class="list-has-number">
+                                            <li class="has-bullet">
+                                                대학(원)생 2.2%(고정/변동금리), 생활비 대출의 경우 학기당 150만원 이내
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h5 class="agree-title2">2단계(대학생·청년 햇살론)</h5>
+                                    <span class="agree-title2">[생활자금대출]서민금융진흥원</span>
+                                    <div class="desc-box">
+                                        <ul class="list-has-number">
+                                            <li class="has-bullet">대상 : 대학생 및 저소득·저신용층 청년층</li>
+                                            <li class="has-bullet">금리 : 4.5%</li>
+                                            <li class="has-bullet">한도 : 최대 1,200만원(연간 500만원 이내)</li>
+                                            <li class="has-bullet">거치기간 : 최대 6년</li>
+                                            <li class="has-bullet">상환기간 : 최대 7년</li>
+                                        </ul>
+                                    </div>
+                                    <span class="agree-title2">[임차보증금 대출]서민금융진흥원</span>
+                                    <div class="desc-box">
+                                        <ul class="list-has-number">
+                                            <li class="has-bullet">대상 : 저소득층 대학(원)생·청년층</li>
+                                            <li class="has-bullet">금리 : 4.5%</li>
+                                            <li class="has-bullet">한도 : 2,000만원</li>
+                                            <li class="has-bullet">만기 : 2년 이내</li>
+                                        </ul>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                        <p class="fs-sm mt20 mb30">※ 본 내용은 ’19.7.29기준이며, 기관별로 공적지원 자격요건, 세부사항 등이 변동될 수 있습니다.</p>
+                                    </div>
+                                </li>
+                            </ol>
+                        </div>
+                        
+                    </div>
+                    <!-- //상세 -->
+                </main>
+            </div>
+            <div class="pbt p0">  
+                <div class="btn-wrap">
+                    <button type="button" class="btn" style="background: red; position: fixed; bottom:20px; left:20px; right:20px">스크롤하기</button>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <!-- Script -->
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script>
+         // 약관 알럿창(필수약관) 띄우기
+            var currentCount = 0;
+
+            $(document).on('click', '.pbt .btn-wrap .btn', function(e){
+                var $closest = $(this).closest('.pop-layer')
+                var innerHeight =  $closest.find('.pbd .pct').innerHeight(); // 팝업 콘텐츠 높이
+                var headerHeight = $closest.find('.phd .in').height();
+                
+                var offset = Math.abs($closest.find('.pct .poptents').offset().top);
+                var scrollTop = $closest.find('.pbd .pct').scrollTop();
+                currentCount += innerHeight
+                console.log(offset , 'offset')
+
+                $closest.find('.pbd .pct').stop().animate({ scrollTop: currentCount - headerHeight - 15}, 500);
+                
+                // if(currentCount >= innerHeight) {
+                //     currentCount = innerHeight 
+                // }
+
+                // currentCount;
+
+            });
+
+            console.log(innerHeight)
+    
+        
+    </script>
 </body>
+
 </html>
