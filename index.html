@@ -305,31 +305,12 @@
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
     <script>
          // 약관 알럿창(필수약관) 띄우기
-            var currentCount = 0;
-
-            $(document).on('click', '.pbt .btn-wrap .btn', function(e){
-                var $closest = $(this).closest('.pop-layer')
-                var innerHeight =  $closest.find('.pbd .pct').innerHeight(); // 팝업 콘텐츠 높이
-                var headerHeight = $closest.find('.phd .in').height();
-                
-                var offset = Math.abs($closest.find('.pct .poptents').offset().top);
-                var scrollTop = $closest.find('.pbd .pct').scrollTop();
-                currentCount += innerHeight
-                console.log(offset , 'offset')
-
-                $closest.find('.pbd .pct').stop().animate({ scrollTop: currentCount - headerHeight - 15}, 500);
-                
-                // if(currentCount >= innerHeight) {
-                //     currentCount = innerHeight 
-                // }
-
-                // currentCount;
-
-            });
-
-            console.log(innerHeight)
-    
-        
+        $(document).on('click', '.pbt .btn-wrap .btn', function(e){
+            var $pop = $(this).closest('.pop-layer')
+            var scTop = $pop.find('.pct').scrollTop();
+            console.log(scTop);
+            $pop.find('.pct').stop().animate({ scrollTop: scTop + 500}, 300);
+        });
     </script>
 </body>
 
